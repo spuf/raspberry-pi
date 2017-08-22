@@ -1,5 +1,7 @@
 - name: Provision Raspberry Pi
-  hosts: default
+  hosts: all
+  remote_user: pi
+  become: yes
 
   vars:
     user: pi
