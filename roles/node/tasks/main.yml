@@ -1,0 +1,29 @@
+- name: Install dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - git
+    - build-essential
+
+- name: Add nodesource key
+  apt_key:
+    url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+
+- name: Add nodesource repository
+  apt_repository:
+    repo: "{{ item }}"
+    filename: nodesource
+  with_items:
+    - "deb https://deb.nodesource.com/node_8.x {{ ansible_lsb.codename }} main"
+    - "deb-src https://deb.nodesource.com/node_8.x {{ ansible_lsb.codename }} main"
+
+- name: Install
+  apt:
+    update_cache: yes
+    name: nodejs
+    state: latest
+
+- name: Configure npm
+  command: npm config set unsafe-perm true
+  changed_when: no

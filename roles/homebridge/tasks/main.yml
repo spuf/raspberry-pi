@@ -1,0 +1,63 @@
+- name: Install dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - libavahi-compat-libdnssd-dev
+
+- name: Install homebridge and homebridge-miio
+  npm:
+    name: "{{ item }}"
+    path: /usr/local
+    global: yes
+    state: latest
+  with_items:
+    - homebridge
+    - homebridge-miio
+
+- name: Create homebridge group
+  group:
+    name: "{{ homebridge.group }}"
+
+- name: Create homebridge user
+  user:
+    name: "{{ homebridge.user }}"
+    group: "{{ homebridge.group }}"
+    createhome: no
+
+- name: Create data directory
+  file:
+    path: "{{ homebridge.data_directory }}"
+    state: directory
+    owner: "{{ homebridge.user }}"
+    group: "{{ homebridge.group }}"
+    mode: u=rwx,g=rx,o=rx
+
+- name: Configure
+  copy:
+    src: config.json
+    dest: "{{ homebridge.data_directory }}/config.json"
+    owner: "{{ homebridge.user }}"
+    group: "{{ homebridge.group }}"
+    mode: u=rw,g=r,o=r
+  notify: restart homebridge
+
+- name: Detect homebridge executable
+  command: which homebridge
+  changed_when: no
+  register: which_homebridge
+
+- name: Configure autostart
+  template:
+    src: "{{ item.key }}"
+    dest: "{{ item.value }}"
+  with_dict:
+    homebridge.j2: /etc/default/homebridge
+    homebridge.service.j2: /etc/systemd/system/homebridge.service
+
+- name: Enable autostart
+  systemd:
+    name: homebridge.service
+    daemon_reload: yes
+    enabled: yes
+    state: started

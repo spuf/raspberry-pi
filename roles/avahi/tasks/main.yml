@@ -1,0 +1,17 @@
+- name: Install
+  apt:
+    name: avahi-daemon
+    state: latest
+
+- name: Configure
+  ini_file:
+    create: no
+    no_extra_spaces: yes
+    path: /etc/avahi/avahi-daemon.conf
+    section: server
+    option: "{{ item.key }}"
+    value: "{{ item.value }}"
+  with_dict:
+    host-name: "{{ hostname }}"
+    domain-name: local
+  notify: restart avahi-daemon

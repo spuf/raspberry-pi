@@ -1,0 +1,23 @@
+- name: Set timezone
+  timezone:
+    name: "{{ timezone }}"
+  notify: restart cron
+
+- name: Set locale
+  locale_gen:
+    name: "{{ locale }}"
+
+- name: Disable MOTD
+  become_user: "{{ user }}"
+  copy:
+    content: ""
+    dest: "~/.hushlogin"
+
+- name: Install some useful tools
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - htop
+    - screen
+    - curl

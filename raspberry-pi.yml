@@ -1,0 +1,29 @@
+- name: Provision Raspberry Pi
+  hosts: default
+
+  vars:
+    user: pi
+    password: raspberry
+    hostname: pi
+    public_key: ~/.ssh/id_rsa.pub
+    timezone: Europe/Moscow
+    locale: en_US.UTF-8
+
+  vars_files:
+    - .vars.yml
+
+  pre_tasks:
+    - name: Ansible requirements
+      apt:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - aptitude
+
+  roles:
+    - upgrade
+    - common
+    - avahi
+    - ssh
+    - node
+    - homebridge
