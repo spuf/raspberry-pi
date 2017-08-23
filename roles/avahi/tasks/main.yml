@@ -12,6 +12,6 @@
     option: "{{ item.key }}"
     value: "{{ item.value }}"
   with_dict:
-    host-name: "{{ hostname }}"
+    host-name: "{{ system_hostname }}"
     domain-name: local
   notify: restart avahi-daemon

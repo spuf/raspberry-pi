@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "raspberry-pi.yml"
     ansible.extra_vars = {
-      user: "vagrant"
+      ansible_user: "vagrant"
     }
     ansible.verbose = "v"
   end

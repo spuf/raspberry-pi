@@ -1,0 +1,22 @@
+{
+  "bridge": {
+    "name": "{{ homebridge_config_name }}",
+    "username": "{{ homebridge_config_username }}",
+    "port": {{ homebridge_config_port|int }},
+    "pin": "{{ homebridge_config_pin }}",
+    "manufacturer": "{{ homebridge_config_manufacturer }}",
+    "model": "{{ homebridge_config_model }}",
+    "serialNumber": "{{ homebridge_config_serial_number }}"
+  },
+
+  "description": "{{ homebridge_config_description }}",
+  "accessories": [],
+  "platforms": [
+    {
+      "platform" : "XiaomiMiio",
+      "name" : "{{ homebridge_config_miio_name }}",
+      "pollChanges": true,
+      "pollInterval": 15
+    }
+  ]
+}

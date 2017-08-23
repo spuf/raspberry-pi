@@ -2,16 +2,8 @@
   hosts: all
   become: yes
 
-  vars:
-    user: pi
-    password: raspberry
-    hostname: pi
-    public_key: ~/.ssh/id_rsa.pub
-    timezone: Europe/Moscow
-    locale: en_US.UTF-8
-
   vars_files:
-    - .vars.yml
+    - vars/main.yml
 
   pre_tasks:
     - name: Ansible requirements
@@ -24,7 +16,6 @@
   roles:
     - upgrade
     - common
-    - avahi
     - ssh
-    - node
+    - avahi
     - homebridge

@@ -1,0 +1,8 @@
+system_hostname: pi
+system_timezone: Europe/Moscow
+system_locale: en_US.UTF-8
+
+ssh_authorized_keys:
+ - ~/.ssh/id_rsa.pub
+
+homebridge_config_pin: 123-45-678

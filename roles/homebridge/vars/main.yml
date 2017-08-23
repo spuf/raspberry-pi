@@ -1,4 +1,0 @@
-homebridge:
-  data_directory: /var/lib/homebridge
-  user: homebridge
-  group: homebridge

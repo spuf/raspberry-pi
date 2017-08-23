@@ -1,12 +1,8 @@
 - name: Set authorized key
   authorized_key:
-    user: "{{ user }}"
-    key: "{{ lookup('file', public_key) }}"
-
-- name: Change default password
-  user:
-    name: "{{ user }}"
-    password: "{{ password }}"
+    user: "{{ ansible_user }}"
+    key: "{{ lookup('file', item) }}"
+  with_items: "{{ ssh_authorized_keys }}"
 
 - name: Disallow password authentication
   lineinfile:

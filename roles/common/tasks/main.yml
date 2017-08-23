@@ -1,19 +1,19 @@
 - name: Set timezone
   timezone:
-    name: "{{ timezone }}"
+    name: "{{ system_timezone }}"
   notify: restart cron
 
 - name: Set locale
   locale_gen:
-    name: "{{ locale }}"
+    name: "{{ system_locale }}"
 
 - name: Disable MOTD
-  become_user: "{{ user }}"
+  become_user: "{{ ansible_user }}"
   copy:
     content: ""
     dest: "~/.hushlogin"
 
-- name: Install some useful tools
+- name: Install tools
   apt:
     name: "{{ item }}"
     state: latest

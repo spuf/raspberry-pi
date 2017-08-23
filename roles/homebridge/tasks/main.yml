@@ -7,37 +7,42 @@
 
 - name: Install homebridge and homebridge-miio
   npm:
+    name: homebridge
+    global: yes
+    state: latest
+
+- name: Install homebridge plugins
+  npm:
     name: "{{ item }}"
     global: yes
     state: latest
   with_items:
-    - homebridge
     - homebridge-miio
 
 - name: Create homebridge group
   group:
-    name: "{{ homebridge.group }}"
+    name: "{{ homebridge_service_group }}"
 
 - name: Create homebridge user
   user:
-    name: "{{ homebridge.user }}"
-    group: "{{ homebridge.group }}"
+    name: "{{ homebridge_service_user }}"
+    group: "{{ homebridge_service_group }}"
     createhome: no
 
 - name: Create data directory
   file:
-    path: "{{ homebridge.data_directory }}"
+    path: "{{ homebridge_service_data_directory }}"
     state: directory
-    owner: "{{ homebridge.user }}"
-    group: "{{ homebridge.group }}"
+    owner: "{{ homebridge_service_user }}"
+    group: "{{ homebridge_service_group }}"
     mode: u=rwx,g=rx,o=rx
 
 - name: Configure
-  copy:
-    src: config.json
-    dest: "{{ homebridge.data_directory }}/config.json"
-    owner: "{{ homebridge.user }}"
-    group: "{{ homebridge.group }}"
+  template:
+    src: config.json.j2
+    dest: "{{ homebridge_service_data_directory }}/config.json"
+    owner: "{{ homebridge_service_user }}"
+    group: "{{ homebridge_service_group }}"
     mode: u=rw,g=r,o=r
   notify: restart homebridge
 
@@ -45,6 +50,10 @@
   command: which homebridge
   changed_when: no
   register: which_homebridge
+
+- name: Define homebridge executable
+  set_fact:
+    homebridge_executable: "{{ which_homebridge.stdout|trim }}"
 
 - name: Configure autostart
   template:
