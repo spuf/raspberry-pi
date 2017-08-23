@@ -16,9 +16,13 @@ Raspberry Pi provisioning with:
 ```shell
 sudo -H pip install --ignore-installed --upgrade ansible
 ```
-2. Play Ansible playbook
+2. Play Ansible playbook for first time, replace `192.168.1.255` with Raspberry Pi IP address:
 ```shell
-ansible-playbook -i inventory.ini -l firstrun raspberry-pi.yml
+ansible-playbook -i inventory.ini -l firstrun -e 'ansible_host=192.168.1.255' raspberry-pi.yml
+```
+3. Play Ansible playbook for other times:
+```shell
+ansible-playbook -i inventory.ini -l pi raspberry-pi.yml
 ```
 
 ## Testing
