@@ -8,7 +8,6 @@
 - name: Install homebridge and homebridge-miio
   npm:
     name: "{{ item }}"
-    path: /usr/local
     global: yes
     state: latest
   with_items:
