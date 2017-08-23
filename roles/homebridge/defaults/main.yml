@@ -2,7 +2,7 @@ homebridge_service_data_directory: /var/lib/homebridge
 homebridge_service_user: homebridge
 homebridge_service_group: homebridge
 
-homebridge_config_homebridge_config_name: Homebridge
+homebridge_config_name: Homebridge
 homebridge_config_username: CC:22:3D:E3:CE:30
 homebridge_config_port: 51826
 homebridge_config_pin: 031-45-154
