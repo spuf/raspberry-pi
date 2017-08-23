@@ -10,6 +10,6 @@ Vagrant.configure("2") do |config|
     ansible.extra_vars = {
       user: "vagrant"
     }
-    # ansible.verbose = "v"
+    ansible.verbose = "v"
   end
 end
