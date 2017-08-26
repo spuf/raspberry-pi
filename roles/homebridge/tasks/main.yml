@@ -5,7 +5,7 @@
   with_items:
     - libavahi-compat-libdnssd-dev
 
-- name: Install homebridge and homebridge-miio
+- name: Install homebridge
   npm:
     name: homebridge
     global: yes

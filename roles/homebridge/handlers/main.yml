@@ -1,4 +1,4 @@
 - name: restart homebridge
-  service:
-    name: homebridge
+  systemd:
+    name: homebridge.service
     state: restarted

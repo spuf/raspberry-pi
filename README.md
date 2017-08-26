@@ -6,8 +6,8 @@ Raspberry Pi provisioning with:
 ## Setup
 
 ### Boot Raspberry Pi
-1. Burn [Raspbian Lite](https://www.raspberrypi.org/downloads/raspbian/) with [Etcher](https://etcher.io/) on SD card.
-2. Reinsert SD card, and create empty file (`touch ssh`) in `boot` partition on SD card.
+1. Write [Raspbian Lite](https://www.raspberrypi.org/downloads/raspbian/) with [Etcher](https://etcher.io/) on SD card.
+2. Remount SD card, and create an empty file named `ssh` in `boot` partition on SD card.
 3. Insert SD card in Raspberry Pi, connect network cable, and power.
 4. Find Raspberry Pi IP address.
 
@@ -16,13 +16,17 @@ Raspberry Pi provisioning with:
 ```shell
 sudo -H pip install --ignore-installed --upgrade ansible
 ```
-2. Play Ansible playbook for first time, replace `192.168.1.255` with Raspberry Pi IP address:
+2. Play Ansible playbook for first time, replace `192.168.1.23` with Raspberry Pi IP address:
 ```shell
-ansible-playbook -i inventory.ini -l firstrun -e 'ansible_host=192.168.1.255' raspberry-pi.yml
+ANSIBLE_HOST_KEY_CHECKING=0 ansible-playbook -i inventory.ini -e 'ansible_host=192.168.1.23 ansible_ssh_pass=raspberry' raspberry-pi.yml
 ```
-3. Play Ansible playbook for other times:
+3. Try to connect to Raspberry Pi: 
 ```shell
-ansible-playbook -i inventory.ini -l pi raspberry-pi.yml
+ssh pi@pi.local
+```
+4. Play Ansible playbook for update:
+```shell
+ansible-playbook -i inventory.ini raspberry-pi.yml
 ```
 
 ## Testing
